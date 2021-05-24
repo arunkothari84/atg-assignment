@@ -4,7 +4,7 @@ import pytesseract
 
 app = Flask(__name__)
 
-pytesseract.pytesseract.tesseract_cmd = r"C:\Users\arunk\OneDrive\Documents\ML, AI, DL projects\ATG assignmnet 1\venv\Lib\site-packages\pytesseract"
+pytesseract.pytesseract.tesseract_cmd = r"/app/.apt/usr/bin/tesseract"
 
 @app.route("/predict/", methods=['POST', 'GET'])
 def prediction(file):
