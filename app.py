@@ -17,12 +17,13 @@ def prediction():
         contours, hierarchy = findContours(dilation, RETR_EXTERNAL, 
                                                  CHAIN_APPROX_NONE)
         im2 = img.copy()
+        text = ''
         for cnt in contours:
             x, y, w, h = boundingRect(cnt)
             rect = rectangle(im2, (x, y), (x + w, y + h), (0, 255, 0), 2)
             cropped = im2[y:y + h, x:x + w]
             file = open("recognized.txt", "a")
-            text = pytesseract.image_to_string(cropped) + "\n"
+            text = text + pytesseract.image_to_string(cropped) + "\n"
 
         return text
 
