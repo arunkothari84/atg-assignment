@@ -1,5 +1,5 @@
 from flask import Flask, request,  render_template
-from cv2 import imread, cvtColor, COLOR_BGR2RGB, 
+from cv2 import imread, cvtColor, COLOR_BGR2RGB
 import pytesseract
 
 app = Flask(__name__)
