@@ -37,7 +37,7 @@ def prediction(fname):
 def uploaded_file(filename):
     return send_from_directory(UPLOAD_FOLDER, filename)    
     
-@app.route('/')
+@app.route('/', methods=['GET','POST'])
 def hello_world():
    if request.method == 'POST':
         if 'file' not in request.files:
