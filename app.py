@@ -55,7 +55,7 @@ def hello_world():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             return redirect(url_for('uploaded_file', filename=filename))
-    return '''
+   return '''
     <!doctype html>
     <title>Upload new File</title>
     <h1>Upload new File</h1>
