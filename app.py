@@ -12,7 +12,7 @@ def prediction():
         img = imread('sample.png')
         img = cvtColor(img, COLOR_BGR2RGB)
         text = pytesseract.image_to_string(img)
-        return 'succcess'
+        return text
 
 @app.route('/')
 def hello_world():
