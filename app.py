@@ -15,7 +15,7 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def prediction(fname):
-    img = imread(fname)
+    img = imread(uploaded_file(fname))
     gray = cvtColor(img, COLOR_BGR2GRAY)
     ret, thresh1 = threshold(gray, 0, 255, THRESH_OTSU | THRESH_BINARY_INV)
     rect_kernel = getStructuringElement(MORPH_RECT, (18, 18))
@@ -33,7 +33,6 @@ def prediction(fname):
 
     return text
 
-@app.route('/uploads/<filename>')
 def uploaded_file(filename):
     return send_from_directory(UPLOAD_FOLDER, filename)    
     
@@ -50,7 +49,7 @@ def hello_world():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(UPLOAD_FOLDER, filename))
-            return redirect(url_for('uploaded_file', filename=filename))
+            return prediction(filename)
    return '''
     <!doctype html>
     <title>Upload new File</title>
