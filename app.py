@@ -4,7 +4,7 @@ import pytesseract
 
 app = Flask(__name__)
 
-pytesseract.pytesseract.tesseract_cmd = r"./app/vendor/tesseract-ocr/bin/tesseract"
+pytesseract.pytesseract.tesseract_cmd = r"./vendor/tesseract-ocr/bin/tesseract"
 
 @app.route("/predict/", methods=['POST', 'GET'])
 def prediction():
