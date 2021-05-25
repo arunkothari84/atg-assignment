@@ -12,7 +12,7 @@ def prediction(file):
         img = cv2.imread('sample.png')
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         text = pytesseract.image_to_string(img)
-        print(text)
+        return text
 
 
 if __name__ == '__main__':
