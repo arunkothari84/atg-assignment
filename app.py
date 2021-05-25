@@ -7,9 +7,8 @@ app = Flask(__name__)
 
 pytesseract.pytesseract.tesseract_cmd = r"./vendor/tesseract-ocr/bin/tesseract"
 
-UPLOAD_FOLDER = '/uploads'
+UPLOAD_FOLDER = '/uploads/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -36,8 +35,7 @@ def prediction(fname):
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'],
-                               filename)    
+    return send_from_directory(UPLOAD_FOLDER, filename)    
     
 @app.route('/')
 def hello_world():
@@ -51,9 +49,8 @@ def hello_world():
             return redirect(request.url)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('uploaded_file',
-                                    filename=filename))
+            file.save(os.path.join(UPLOAD_FOLDER, filename))
+            return redirect(url_for('uploaded_file', filename=filename))
    return '''
     <!doctype html>
     <title>Upload new File</title>
