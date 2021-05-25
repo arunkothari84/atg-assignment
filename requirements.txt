@@ -10,4 +10,3 @@ opencv-python==4.5.2.52
 Pillow==8.2.0
 pytesseract==0.3.7
 Werkzeug==2.0.1
-opencv-python
