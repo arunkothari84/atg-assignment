@@ -15,26 +15,24 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@app.route("/predict/", methods=['POST', 'GET'])
-def prediction():
-    if request.method == "GET":
-        img = imread('sample.png')
-        gray = cvtColor(img, COLOR_BGR2GRAY)
-        ret, thresh1 = threshold(gray, 0, 255, THRESH_OTSU | THRESH_BINARY_INV)
-        rect_kernel = getStructuringElement(MORPH_RECT, (18, 18))
-        dilation = dilate(thresh1, rect_kernel, iterations = 1)
-        contours, hierarchy = findContours(dilation, RETR_EXTERNAL, 
-                                                 CHAIN_APPROX_NONE)
-        im2 = img.copy()
-        text = ''
-        for cnt in contours:
-            x, y, w, h = boundingRect(cnt)
-            rect = rectangle(im2, (x, y), (x + w, y + h), (0, 255, 0), 2)
-            cropped = im2[y:y + h, x:x + w]
-            file = open("recognized.txt", "a")
-            text = text + pytesseract.image_to_string(cropped) + "\n"
+def prediction(fname):
+    img = imread(fname)
+    gray = cvtColor(img, COLOR_BGR2GRAY)
+    ret, thresh1 = threshold(gray, 0, 255, THRESH_OTSU | THRESH_BINARY_INV)
+    rect_kernel = getStructuringElement(MORPH_RECT, (18, 18))
+    dilation = dilate(thresh1, rect_kernel, iterations = 1)
+    contours, hierarchy = findContours(dilation, RETR_EXTERNAL, 
+                                             CHAIN_APPROX_NONE)
+    im2 = img.copy()
+    text = ''
+    for cnt in contours:
+        x, y, w, h = boundingRect(cnt)
+        rect = rectangle(im2, (x, y), (x + w, y + h), (0, 255, 0), 2)
+        cropped = im2[y:y + h, x:x + w]
+        file = open("recognized.txt", "a")
+        text = text + pytesseract.image_to_string(cropped) + "<br>"
 
-        return text
+    return text
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
@@ -54,7 +52,7 @@ def hello_world():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('uploaded_file', filename=filename))
+            return prediction(file)
    return '''
     <!doctype html>
     <title>Upload new File</title>
